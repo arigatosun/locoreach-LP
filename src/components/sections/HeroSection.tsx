@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function HeroSection() {
   const [windowWidth, setWindowWidth] = useState(0);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   // 画面サイズの変更を監視
   useEffect(() => {
@@ -99,6 +100,56 @@ export default function HeroSection() {
     }
   };
 
+  // ボックスのスタイル計算
+  const getBoxStyles = () => {
+    // ベーススタイル
+    const baseStyles = {
+      borderRadius: '30px',
+      background: '#E2EAF2',
+      boxShadow: '4px 8px 20px 0px rgba(20, 0, 61, 0.25)',
+      padding: '70px 80px',
+      position: 'absolute' as const,
+      left: '0',
+      right: '0',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      minHeight: '300px',
+      zIndex: 11,
+      display: 'flex',
+      flexDirection: 'column' as const,
+      alignItems: 'center'
+    };
+
+    // PCサイズ (1024px以上)
+    if (windowWidth >= 1024) {
+      return {
+        ...baseStyles,
+        width: 'calc(100% - 620px)', // 左右310pxの余白
+        marginTop: windowWidth >= 1450 ? '120px' : '90px', // 値をさらに小さく調整
+      };
+    } 
+    // タブレットサイズ
+    else if (isTablet) {
+      // 余白を比例的に調整
+      const horizontalMargin = Math.max(40, (windowWidth - 768) / (1024 - 768) * 270 + 40);
+      return {
+        ...baseStyles,
+        width: `calc(100% - ${horizontalMargin * 2}px)`,
+        marginTop: '70px', // 値をさらに小さく調整
+        padding: '50px 60px',
+      };
+    } 
+    // モバイルサイズ
+    else {
+      return {
+        ...baseStyles,
+        width: 'calc(100% - 40px)', // 左右20pxの余白
+        marginTop: '50px', // 値をさらに小さく調整
+        padding: '40px 30px',
+      };
+    }
+  };
+
   return (
     <section className="relative w-full overflow-visible">
       {/* 背景画像 */}
@@ -147,6 +198,58 @@ export default function HeroSection() {
               alt="MEO" 
               className="max-w-full h-auto"
             />
+          </div>
+
+          {/* 新しいボックス */}
+          <div style={getBoxStyles()}>
+            <img 
+              src="/images/locoreach-q.png" 
+              alt="ロコリーチ" 
+              className="max-w-full h-auto"
+            />
+            <div style={{ 
+              marginTop: '36px', 
+              textAlign: 'center', 
+              color: '#10003C',
+              fontFamily: '"Zen Kaku Gothic New"',
+              fontSize: '24px',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: '44px',
+              letterSpacing: '1.44px'
+            }}>
+              <p>ロコリーチとはMEO対策ができるAI搭載型の集客サービスです。</p>
+              <p>AIを活用することで投稿や多言語での対応にかかる運用代行費が不要になり、</p>
+              <p>Google、Instagram、インバウンド３つの対策がまとめて可能です。</p>
+              <p style={{ marginTop: '16px' }}>コストを最低限に抑えながら、最高品質の MEO対策ができるサービスを実現しました。</p>
+              
+              <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center' }}>
+                <button 
+                  style={{
+                    width: '332px',
+                    height: '44px',
+                    background: `linear-gradient(94deg, #B3E3FC 0%, #84C7ED 11%, #55ABDE 23%, #3094D3 35%, #1585CA 45%, #057BC5 55%, #0078C4 63%, #047DC7 70%, #118ED2 80%, #26AAE4 92%, #39C2F4 100%)`,
+                    borderRadius: '28px',
+                    color: '#FFF',
+                    textAlign: 'center',
+                    fontFamily: '"Zen Kaku Gothic New"',
+                    fontSize: '20px',
+                    fontStyle: 'normal',
+                    fontWeight: 'normal',
+                    letterSpacing: '1.2px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    transform: isButtonHovered ? 'translateY(-3px) scale(1.03)' : 'translateY(0) scale(1)',
+                    boxShadow: isButtonHovered ? '0 10px 20px rgba(20, 0, 61, 0.2)' : '0 4px 6px rgba(20, 0, 61, 0.1)',
+                  }}
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
+                >
+                  サービス詳細ページへ →
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
