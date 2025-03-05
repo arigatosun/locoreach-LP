@@ -108,6 +108,15 @@ export default function HeroSection() {
           alt="Hero background" 
           className="w-full h-auto object-contain"
         />
+        {/* モバイル用背景画像 (767px以下で表示) */}
+        {windowWidth <= 767 && (
+          <img 
+            src="/images/hero-mobile-bg-image.png" 
+            alt="Mobile hero background" 
+            className="w-full h-auto object-contain"
+            style={{ marginTop: '-4px', position: 'relative' }}
+          />
+        )}
       </div>
       
       {/* コンテンツエリア */}
